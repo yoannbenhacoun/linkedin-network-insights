@@ -1,5 +1,5 @@
 import './globals.css';
-import { SessionProvider } from 'next-auth/react';
+import { Providers } from './providers';
 
 export const metadata = {
   title: 'LinkedIn Network Insights',
@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="min-h-screen bg-gray-50">
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
