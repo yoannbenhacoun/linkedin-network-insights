@@ -5,16 +5,18 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function Dashboard() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      window.location.href = '/';
+    },
+  });
+  
   const router = useRouter();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/');
-    }
-
     if (status === 'authenticated' && session) {
       // Fetch LinkedIn profile data
       fetch('/api/linkedin/profile')
@@ -28,7 +30,7 @@ export default function Dashboard() {
           setLoading(false);
         });
     }
-  }, [session, status, router]);
+  }, [session, status]);
 
   if (status === 'loading' || loading) {
     return (
